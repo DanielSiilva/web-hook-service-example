@@ -16,12 +16,25 @@ const registerShema = new Schema({
 
 const Resgister = mongoose.model("ResgisterWebHook", registerShema);
 
+app.post("/webhook", async (req, res) => {
+  console.log("Dadaos recidos:", req.body);
+
+  try {
+    const newResgister = new Resgister(req.body);
+    await newResgister.save();
+
+    console.log("Dadaos salvos ");
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
 mongoose
   .connect(process.env.MONGOBD_URL)
   .then(() => {
     console.log("Connected to mongodb");
-    app.listen(3002, () => {
-      console.log("Server is running on port 3002");
+    app.listen(3000, () => {
+      console.log("Server is running on port 3000");
     });
   })
   .catch(() => {
