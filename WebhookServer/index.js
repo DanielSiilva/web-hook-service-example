@@ -4,9 +4,17 @@ const axios = require("axios");
 const { default: mongoose } = require("mongoose");
 
 const app = express();
-const port = process.env.PORT;
 
 app.use(express.json());
+
+const Schema = mongoose.Schema;
+const registerShema = new Schema({
+  name: String,
+  email: String,
+  date: { type: Date, default: Date.now },
+});
+
+const Resgister = mongoose.model("ResgisterWebHook", registerShema);
 
 mongoose
   .connect(process.env.MONGOBD_URL)
